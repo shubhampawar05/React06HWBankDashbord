@@ -13,8 +13,8 @@ Chart.register(CategoryScale);
 
 const Dashbord = () => {
   const [homeValue, setHomeValue] = useState(3000);
-  const [downPayment, setDownPayment] = useState(600);
-  const [loanamount, setLoanamount] = useState(2400);
+  const [downPayment, setDownPayment] = useState(0);
+  const [loanamount, setLoanamount] = useState(0);
   const [intrest, setIntrest] = useState(5);
   const [year, setYear] = React.useState(5);
   // const [totalintrest setTotalintrest]= useState(0)
@@ -36,30 +36,38 @@ const Dashbord = () => {
   });
 
 // concept of slider
-  useEffect(() => {
-    // calculating downPayment
-    const down = homeValue * 0.2;
-    setDownPayment(down);
-    // loan
-    const loan = homeValue * 0.8;
-    setLoanamount(loan);
+useEffect(()=>{
+  setDownPayment(()=>homeValue*0.2)
+  setLoanamount(()=>homeValue*0.8)
+  // console.log("home value compo");
+},[])
+ 
+function changehandlre(id ,value){
+  console.log(id ,value);
+  if(id == "down"){
+    console.log(loanamount,downPayment);
+    setDownPayment(()=>value)
+    setLoanamount(()=>homeValue-downPayment)
     
+  }
+    if(id == "loan"){
+      setLoanamount(()=>value)
+    setDownPayment(()=>homeValue-loanamount)
+  }
+  if(id=='home'){
+    setHomeValue(()=>value)
+  }
+}
 
-  }, [homeValue]);
+// useEffect(()=>{
+//   setDownPayment(homeValue-loanamount)
+// },[loanamount])
 
 
-  // useEffect(()=>{
-  //   const loanvalue = homeValue-downPayment
-  //   setLoanamount(loanvalue)
-  // },[loanamount])
-
-  // useEffect(()=>{
-  //   const downpay = homeValue-loanamount
-  //   setDownPayment(downpay)
-  // },[downPayment])
+ 
 
 
-  console.log(downPayment);
+  // console.log(downPayment);
 
 // emi concept 
 // useEffect(()=>{
@@ -84,7 +92,9 @@ const Dashbord = () => {
           title={"Home Value"}
           value={homeValue}
           Rate={setHomeValue}
+          changehandlre={changehandlre}
           steps={100}
+          id={'home'}
         />
         <Sliderbarinfo
           min={0}
@@ -92,7 +102,9 @@ const Dashbord = () => {
           symbol={"$"}
           title={"Down Payment"}
           value={downPayment}
+          changehandlre={changehandlre}
           Rate={setDownPayment}
+          id={'down'}
           steps={10}
         />
         <Sliderbarinfo
@@ -103,6 +115,8 @@ const Dashbord = () => {
           value={loanamount}
           Rate={setLoanamount}
           steps={100}
+          id={'loan'}
+          changehandlre={changehandlre}
         />
         <Sliderbarinfo
           min={2}
@@ -111,7 +125,9 @@ const Dashbord = () => {
           title={"Interest Rate"}
           value={intrest}
           Rate={setIntrest}
+          changehandlre={changehandlre}
           steps={1}
+          id={''}
         />
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Tenure</InputLabel>

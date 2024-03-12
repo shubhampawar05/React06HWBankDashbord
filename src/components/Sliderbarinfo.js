@@ -8,8 +8,9 @@ const Sliderbarinfo = ({
   symbol,
   value,
   Rate,
- 
   setHomeValue,
+  id,
+  changehandlre,
   steps=10
 }) => {
   return (
@@ -35,7 +36,10 @@ const Sliderbarinfo = ({
             value={value}
             valueLabelDisplay="auto"
             onChange={(e) => {
-              Rate(e.target.value);
+             
+              changehandlre(id , e.target.value)
+              // Rate((prev)=>( prev =e.target.value));
+
             }}
           />
         </div>
