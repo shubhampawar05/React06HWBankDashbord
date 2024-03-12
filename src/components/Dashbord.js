@@ -38,16 +38,28 @@ const Dashbord = () => {
 // concept of slider
   useEffect(() => {
     // calculating downPayment
-    // const down = homeValue * 0.2;
-    // setDownPayment(down);
-    // // loan
-    // const loan = homeValue * 0.8;
-    // setLoanamount(loan);
+    const down = homeValue * 0.2;
+    setDownPayment(down);
+    // loan
+    const loan = homeValue * 0.8;
+    setLoanamount(loan);
     
 
-  }, [homeValue, downPayment, loanamount]);
+  }, [homeValue]);
 
-  
+
+  // useEffect(()=>{
+  //   const loanvalue = homeValue-downPayment
+  //   setLoanamount(loanvalue)
+  // },[loanamount])
+
+  // useEffect(()=>{
+  //   const downpay = homeValue-loanamount
+  //   setDownPayment(downpay)
+  // },[downPayment])
+
+
+  console.log(downPayment);
 
 // emi concept 
 // useEffect(()=>{
