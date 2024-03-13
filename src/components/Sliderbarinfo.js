@@ -8,10 +8,10 @@ const Sliderbarinfo = ({
   symbol,
   value,
   Rate,
-  setHomeValue,
+  // setHomeValue,
   id,
-  changehandlre,
-  steps=10
+
+  steps = 10,
 }) => {
   return (
     <>
@@ -21,7 +21,7 @@ const Sliderbarinfo = ({
         </div>
         <div>
           <p className="text-xl font-semibold ">
-            {symbol }
+            {symbol}
             {value}
           </p>
         </div>
@@ -35,12 +35,7 @@ const Sliderbarinfo = ({
             max={max}
             value={value}
             valueLabelDisplay="auto"
-            onChange={(e) => {
-             
-              changehandlre(id , e.target.value)
-              // Rate((prev)=>( prev =e.target.value));
-
-            }}
+            onChange={(e) => Rate(e.target.value)}
           />
         </div>
         <div className="flex justify-between text-[12px]">

@@ -17,70 +17,84 @@ const Dashbord = () => {
   const [loanamount, setLoanamount] = useState(0);
   const [intrest, setIntrest] = useState(5);
   const [year, setYear] = React.useState(5);
-  // const [totalintrest setTotalintrest]= useState(0)
+  const [totalintrest, setTotalintrest] = useState(0);
+  const [emiii, setEmiii] = useState(0);
 
   const [chartData, setChartData] = useState({
-    labels: ['Principal, intrest'], 
+    labels: ["Principal, intrest"],
     datasets: [
       {
         label: "Montly Payment ",
-        data:[homeValue,352],
-        backgroundColor: [
-          "#f3ba2f",
-          "#2a71d0"
-        ],
+        data: [homeValue, totalintrest],
+        backgroundColor: ["#f3ba2f", "#2a71d0"],
         borderColor: "black",
-        borderWidth: 2
-      }
-    ]
+        borderWidth: 2,
+      },
+    ],
   });
 
-// concept of slider
-useEffect(()=>{
-  setDownPayment(()=>homeValue*0.2)
-  setLoanamount(()=>homeValue*0.8)
-  // console.log("home value compo");
-},[])
- 
-function changehandlre(id ,value){
-  console.log(id ,value);
-  if(id == "down"){
-    console.log(loanamount,downPayment);
-    setDownPayment(()=>value)
-    setLoanamount(()=>homeValue-downPayment)
-    
-  }
-    if(id == "loan"){
-      setLoanamount(()=>value)
-    setDownPayment(()=>homeValue-loanamount)
-  }
-  if(id=='home'){
-    setHomeValue(()=>value)
-  }
-}
+  // concept of slider
+  // useEffect(()=>{
+  //   setDownPayment(()=>homeValue*0.2)
+  //   setLoanamount(()=>homeValue*0.8)
+  //   // console.log("home value compo");
+  // },[])
 
-// useEffect(()=>{
-//   setDownPayment(homeValue-loanamount)
-// },[loanamount])
+  // function changehandlre(id ,value){
+  //   console.log(id ,value);
+  //   if(id == "down"){
+  //     console.log(loanamount,downPayment);
+  //     setDownPayment(()=>value)
+  //     setLoanamount(()=>homeValue-downPayment)
 
+  //   }
+  //     if(id == "loan"){
+  //       setLoanamount(()=>value)
+  //     setDownPayment(()=>homeValue-loanamount)
+  //   }
+  //   if(id=='home'){
+  //     setHomeValue(()=>value)
+  //   }
+  // }
 
- 
-
+  // useEffect(()=>{
+  //   setDownPayment(homeValue-loanamount)
+  // },[loanamount])
 
   // console.log(downPayment);
 
-// emi concept 
-// useEffect(()=>{
-//   let totalloan = year*12
-//   let intrrestpermonth = intrest/100/12
-//   let emi = (homeValue * intrrestpermonth*(1+intrrestpermonth)**totalloan)/((1+intrrestpermonth)**totalloan-1)
-//   console.log(emi);
-//   let totalintrestss = emi * year*12
-//   setTotalintrest(totalintrestss)
-   
-// },[homeValue ,intrest,year])
+  // emi concept
+  useEffect(() => {
+    let totalloan = year * 12;
+    let intrrestpermonth = intrest / 100 / 12;
+    let emi =
+      (homeValue * intrrestpermonth * (1 + intrrestpermonth) ** totalloan) /
+      ((1 + intrrestpermonth) ** totalloan - 1);
+    console.log(emi);
+    let totalintrestss = emi * year * 12 - loanamount;
+    setTotalintrest(totalintrestss);
+    setEmiii(emi);
+    setChartData({
+      labels: ["Principal, intrest"],
+      datasets: [
+        {
+          label: "Montly Payment ",
+          data: [homeValue, totalintrest],
+          backgroundColor: ["#f3ba2f", "#2a71d0"],
+          borderColor: "black",
+          borderWidth: 2,
+        },
+      ],
+    });
+  }, [homeValue, intrest, loanamount, downPayment, year]);
 
+  useEffect(() => {
+    setDownPayment(homeValue * 0.2);
+  }, [homeValue]);
 
+  useEffect(() => {
+    setLoanamount(homeValue - downPayment);
+  }, [downPayment]);
 
   return (
     <div className="flex">
@@ -92,9 +106,9 @@ function changehandlre(id ,value){
           title={"Home Value"}
           value={homeValue}
           Rate={setHomeValue}
-          changehandlre={changehandlre}
+          // changehandlre={changehandlre}
           steps={100}
-          id={'home'}
+          // id={'home'}
         />
         <Sliderbarinfo
           min={0}
@@ -102,9 +116,9 @@ function changehandlre(id ,value){
           symbol={"$"}
           title={"Down Payment"}
           value={downPayment}
-          changehandlre={changehandlre}
+          // changehandlre={changehandlre}
           Rate={setDownPayment}
-          id={'down'}
+          // id={'down'}
           steps={10}
         />
         <Sliderbarinfo
@@ -115,8 +129,8 @@ function changehandlre(id ,value){
           value={loanamount}
           Rate={setLoanamount}
           steps={100}
-          id={'loan'}
-          changehandlre={changehandlre}
+          // id={'loan'}
+          // changehandlre={changehandlre}
         />
         <Sliderbarinfo
           min={2}
@@ -125,9 +139,9 @@ function changehandlre(id ,value){
           title={"Interest Rate"}
           value={intrest}
           Rate={setIntrest}
-          changehandlre={changehandlre}
+          // changehandlre={changehandlre}
           steps={1}
-          id={''}
+          // id={''}
         />
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Tenure</InputLabel>
@@ -136,7 +150,7 @@ function changehandlre(id ,value){
             id="demo-simple-select"
             value={year}
             label="year"
-            onChange={(event)=>setYear(event.target.value)}
+            onChange={(event) => setYear(event.target.value)}
           >
             <MenuItem value={5}>5 Year</MenuItem>
             <MenuItem value={10}>10 Year</MenuItem>
@@ -146,8 +160,11 @@ function changehandlre(id ,value){
           </Select>
         </FormControl>
       </div>
-      <div className="w-[50%] p-8">
-        <Pichart chartData={chartData} />
+      <div className=" w-[600px] h-[600px] text-center  p-8">
+        <h1 className="text-center">Montly emi {emiii}</h1>
+        <div className=" text-center">
+          <Pichart chartData={chartData} />
+        </div>
       </div>
     </div>
   );

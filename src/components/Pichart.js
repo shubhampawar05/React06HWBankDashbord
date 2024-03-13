@@ -6,7 +6,7 @@ const Pichart = ({chartData}) => {
   return (
     <div>
       {" "}
-      <div className="chart-container">
+      <div className="chart-container  ">
         <h2 style={{ textAlign: "center" }}>Pie Chart</h2>
         <Pie
           data={chartData}
